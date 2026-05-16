@@ -1,0 +1,834 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="necrosis">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <title>NECRO WICK · wick & marrow · funeral wax</title>
+  <!-- Typography: funerary serif + ossuary sans with ritualistic gravity -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&family=Special+Elite&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* THEME: NECROSIS (ash & marrow) */
+    :root[data-theme="necrosis"] {
+      --bg: #0c0b0e;
+      --surface: #161318;
+      --surface-elevated: #241f26;
+      --text: #efe6dc;
+      --text-soft: #b8a99a;
+      --text-muted: #5b4f45;
+      --accent: #c2815a;
+      --accent-glow: #e0a074;
+      --accent-deep: #a56238;
+      --accent-subtle: #382d26;
+      --border-light: #4f3f34;
+      --shadow-sm: 0 12px 28px -10px rgba(0,0,0,0.8);
+      --shadow-lg: 0 25px 45px -12px rgba(0,0,0,0.9);
+      --transition: 0.25s ease;
+      --radius-card: 0px 28px 0px 28px;
+      --grid-gap: 1.8rem;
+    }
+
+    /* ALTERNATE THEME: "embalmer" — pale wax & linen */
+    :root[data-theme="embalmer"] {
+      --bg: #f5efe8;
+      --surface: #ffffff;
+      --surface-elevated: #fef9f2;
+      --text: #2a241f;
+      --text-soft: #796857;
+      --text-muted: #d4c4b4;
+      --accent: #bd7a4a;
+      --accent-glow: #d69764;
+      --accent-deep: #9e5c32;
+      --accent-subtle: #e8dbce;
+      --border-light: #e2d4c6;
+    }
+
+    body {
+      background: var(--bg);
+      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      scroll-behavior: smooth;
+      font-weight: 400;
+      line-height: 1.45;
+    }
+
+    ::-webkit-scrollbar { width: 5px; }
+    ::-webkit-scrollbar-track { background: var(--surface); }
+    ::-webkit-scrollbar-thumb { background: var(--accent); border-radius: 0px; }
+
+    /* header — threshold of wick */
+    .necro-header {
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      background: rgba(12, 11, 14, 0.94);
+      backdrop-filter: blur(16px);
+      border-bottom: 2px solid var(--accent);
+      transition: var(--transition);
+    }
+    [data-theme="embalmer"] .necro-header {
+      background: rgba(245, 239, 232, 0.96);
+      border-bottom-color: var(--accent);
+    }
+
+    .nav-wick {
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 0.8rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 0.8rem;
+    }
+
+    .brand-wick {
+      font-family: 'Special Elite', cursive;
+      font-size: 1.55rem;
+      font-weight: 400;
+      letter-spacing: 1px;
+      color: var(--accent-glow);
+      text-transform: uppercase;
+      border-bottom: 3px solid var(--accent);
+      padding-bottom: 5px;
+    }
+    .brand-wick small {
+      font-size: 0.5rem;
+      font-weight: 400;
+      letter-spacing: 3px;
+      margin-left: 8px;
+      color: var(--text-soft);
+    }
+
+    .nav-wick-links {
+      display: flex;
+      gap: 2rem;
+      font-size: 0.62rem;
+      text-transform: uppercase;
+      font-weight: 600;
+      letter-spacing: 2.5px;
+    }
+    .nav-wick-links a {
+      color: var(--text-soft);
+      text-decoration: none;
+      transition: 0.2s;
+    }
+    .nav-wick-links a:hover { color: var(--accent-glow); border-bottom: 1px solid; padding-bottom: 2px; }
+
+    .wick-utils {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+    #themeToggleWick {
+      background: var(--accent-subtle);
+      border: none;
+      padding: 5px 12px;
+      font-size: 0.7rem;
+      font-weight: 600;
+      cursor: pointer;
+      color: var(--text);
+      font-family: monospace;
+    }
+    .wick-cart {
+      position: relative;
+      cursor: pointer;
+      font-size: 1.3rem;
+      display: flex;
+      align-items: center;
+    }
+    .cart-count-wick {
+      background: var(--accent);
+      color: #0c0b0e;
+      font-size: 0.55rem;
+      font-weight: 800;
+      border-radius: 0px;
+      width: 18px;
+      height: 18px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      position: absolute;
+      top: -8px;
+      right: -14px;
+    }
+
+    /* hero — funeral pyre glow */
+    .hero-wick {
+      min-height: 92vh;
+      display: flex;
+      align-items: center;
+      position: relative;
+      background-image: url('https://images.unsplash.com/photo-1518638150340-f706e86654de?q=80&w=2070&auto=format&fit=crop');
+      background-size: cover;
+      background-position: 50% 40%;
+    }
+    .hero-wick::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: linear-gradient(118deg, #0c0b0ed9 0%, #161318bb 100%);
+      z-index: 1;
+    }
+    .hero-wick-content {
+      position: relative;
+      z-index: 2;
+      max-width: 660px;
+      padding: 0 6%;
+    }
+    .hero-wick-badge {
+      font-size: 0.55rem;
+      letter-spacing: 5px;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--accent-glow);
+      border-left: 4px solid var(--accent);
+      padding-left: 14px;
+      font-family: monospace;
+    }
+    .hero-wick-title {
+      font-family: 'Special Elite', cursive;
+      font-size: clamp(3.2rem, 10vw, 5.8rem);
+      font-weight: 400;
+      line-height: 1.0;
+      margin-bottom: 0.8rem;
+      color: #f2e6da;
+      letter-spacing: -1px;
+    }
+    .hero-wick-offer {
+      font-size: 0.7rem;
+      font-weight: 500;
+      margin-bottom: 2rem;
+      background: rgba(0,0,0,0.6);
+      display: inline-block;
+      padding: 0.45rem 1.2rem;
+      backdrop-filter: blur(4px);
+      font-family: monospace;
+    }
+
+    .btn-wick {
+      background: var(--accent);
+      border: none;
+      padding: 0.85rem 2.2rem;
+      font-size: 0.7rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: var(--transition);
+      display: inline-block;
+      text-decoration: none;
+      color: #0c0b0e;
+      font-family: monospace;
+    }
+    .btn-wick:hover {
+      background: var(--accent-glow);
+      transform: translateX(4px);
+    }
+
+    /* collection header */
+    .wick-collection {
+      max-width: 1440px;
+      margin: 3rem auto 0.5rem auto;
+      padding: 0 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      flex-wrap: wrap;
+      border-bottom: 2px solid var(--accent);
+      padding-bottom: 0.7rem;
+    }
+    .wick-collection h2 {
+      font-family: 'Special Elite', cursive;
+      font-size: 1.5rem;
+      font-weight: 400;
+    }
+    .wick-collection p {
+      color: var(--accent-glow);
+      font-size: 0.6rem;
+      letter-spacing: 2px;
+      font-family: monospace;
+    }
+
+    /* product grid — funeral archive */
+    .grid-wick {
+      max-width: 1440px;
+      margin: 2rem auto 5rem auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: var(--grid-gap);
+    }
+
+    .wick-card {
+      background: var(--surface);
+      border-radius: var(--radius-card);
+      overflow: hidden;
+      transition: var(--transition);
+      border: 1px solid var(--border-light);
+      box-shadow: var(--shadow-sm);
+    }
+    .wick-card:hover {
+      transform: translateY(-6px);
+      border-color: var(--accent-glow);
+      box-shadow: var(--shadow-lg);
+    }
+    .wick-media {
+      position: relative;
+      aspect-ratio: 4 / 5;
+      overflow: hidden;
+      background: var(--surface-elevated);
+      filter: grayscale(18%);
+    }
+    .wick-media img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.5s ease;
+    }
+    .wick-card:hover .wick-media img { transform: scale(1.03); filter: grayscale(0%); }
+    .wick-quick {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(22, 19, 24, 0.95);
+      backdrop-filter: blur(8px);
+      padding: 0.8rem;
+      opacity: 0;
+      transition: 0.2s;
+      text-align: center;
+    }
+    .wick-card:hover .wick-quick { opacity: 1; }
+    .wick-quick button {
+      background: var(--accent);
+      border: none;
+      width: 90%;
+      padding: 0.6rem;
+      font-size: 0.55rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #0c0b0e;
+      font-family: monospace;
+    }
+    .wick-quick button:hover { background: white; color: #161318; }
+
+    .wick-info {
+      padding: 1rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .wick-detail h4 {
+      font-size: 0.5rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      color: var(--accent-glow);
+      letter-spacing: 2px;
+    }
+    .wick-detail h3 {
+      font-family: 'Special Elite', cursive;
+      font-size: 1rem;
+      font-weight: 400;
+      margin-top: 5px;
+    }
+    .wick-price { text-align: right; }
+    .wick-current { font-weight: 800; font-size: 1rem; }
+    .wick-old { font-size: 0.65rem; text-decoration: line-through; color: var(--text-muted); margin-left: 0.3rem; }
+
+    /* cart — marrow satchel */
+    .cart-overlay-wick {
+      position: fixed;
+      inset: 0;
+      z-index: 2000;
+      background: rgba(0, 0, 0, 0.97);
+      backdrop-filter: blur(20px);
+      visibility: hidden;
+      opacity: 0;
+      transition: 0.2s;
+    }
+    .cart-overlay-wick.active { visibility: visible; opacity: 1; }
+    .cart-wick-panel {
+      position: fixed;
+      top: 0;
+      right: 0;
+      width: 100%;
+      max-width: 520px;
+      height: 100vh;
+      background: var(--surface);
+      border-left: 4px solid var(--accent);
+      box-shadow: var(--shadow-lg);
+      z-index: 2001;
+      transform: translateX(100%);
+      transition: transform 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+      display: flex;
+      flex-direction: column;
+    }
+    .cart-overlay-wick.active .cart-wick-panel { transform: translateX(0); }
+    .cart-wick-header {
+      padding: 1.4rem;
+      border-bottom: 1px solid var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .cart-wick-header h3 {
+      font-family: 'Special Elite', cursive;
+      font-size: 1.5rem;
+      font-weight: 400;
+      color: var(--accent-glow);
+    }
+    .close-wick-cart {
+      background: none;
+      border: none;
+      font-size: 1.3rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .cart-wick-items {
+      flex: 1;
+      overflow-y: auto;
+      padding: 1rem;
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    .wick-cart-item {
+      display: flex;
+      gap: 1rem;
+      padding: 0.8rem;
+      background: var(--surface-elevated);
+      border-left: 3px solid var(--accent);
+      position: relative;
+      border-radius: 12px;
+    }
+    .wick-cart-img {
+      width: 70px;
+      height: 85px;
+      object-fit: cover;
+      border-radius: 8px;
+    }
+    .wick-cart-details { flex: 1; }
+    .wick-cart-name {
+      font-family: 'Special Elite', cursive;
+      font-size: 0.9rem;
+      font-weight: 400;
+    }
+    .wick-cart-price { font-size: 0.75rem; color: var(--accent-glow); margin-top: 4px; }
+    .wick-cart-qty {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-top: 8px;
+    }
+    .wick-qty-btn {
+      background: var(--accent-subtle);
+      border: none;
+      width: 26px;
+      height: 26px;
+      cursor: pointer;
+      font-weight: 800;
+      color: var(--text);
+      font-family: monospace;
+    }
+    .wick-qty-btn:hover { background: var(--accent); color: #111; }
+    .wick-remove {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: none;
+      border: none;
+      color: var(--text-muted);
+      cursor: pointer;
+    }
+    .cart-wick-footer {
+      padding: 1.5rem;
+      border-top: 2px solid var(--accent);
+      background: var(--surface);
+    }
+    .wick-total {
+      display: flex;
+      justify-content: space-between;
+      font-weight: 800;
+      font-size: 1.1rem;
+      margin-bottom: 1rem;
+      font-family: monospace;
+    }
+    .wick-checkout {
+      width: 100%;
+      background: var(--accent);
+      border: none;
+      padding: 0.9rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+      cursor: pointer;
+      transition: 0.2s;
+      color: #0c0b0e;
+      font-family: monospace;
+    }
+    .wick-checkout:hover { background: var(--accent-glow); transform: scale(0.98);}
+    .empty-wick-cart { text-align: center; color: var(--text-soft); padding: 2rem; font-size: 0.75rem; font-family: monospace;}
+
+    footer {
+      background: var(--surface-elevated);
+      margin-top: 2rem;
+      padding: 2rem 1.5rem;
+      border-top: 1px solid var(--accent);
+    }
+    .footer-wick {
+      max-width: 1200px;
+      margin: 0 auto;
+      text-align: center;
+    }
+    .footer-wick-brand {
+      font-family: 'Special Elite', cursive;
+      font-size: 1.8rem;
+      font-weight: 400;
+      color: var(--accent-glow);
+    }
+    .footer-wick-regions {
+      font-size: 0.5rem;
+      letter-spacing: 3px;
+      color: var(--text-soft);
+      margin: 0.6rem 0 1rem;
+      font-family: monospace;
+    }
+
+    /* modal — wax & marrow */
+    .modal-wick {
+      position: fixed;
+      inset: 0;
+      z-index: 2200;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      background: rgba(0, 0, 0, 0.98);
+      backdrop-filter: blur(24px);
+      transition: opacity 0.25s;
+    }
+    .modal-wick-block {
+      background: var(--surface);
+      max-width: 530px;
+      width: 100%;
+      border-top: 5px solid var(--accent);
+      padding: 2rem 2rem 2.2rem;
+      position: relative;
+      text-align: center;
+      box-shadow: 0 35px 45px rgba(0,0,0,0.9);
+    }
+    .modal-wick-close {
+      position: absolute;
+      top: 1rem;
+      right: 1.2rem;
+      background: none;
+      border: none;
+      font-size: 1.2rem;
+      cursor: pointer;
+      color: var(--text-muted);
+    }
+    .modal-wick-icon {
+      width: 70px;
+      height: 70px;
+      background: rgba(194, 129, 90, 0.2);
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 1rem;
+      font-size: 2rem;
+      border: 1px solid var(--accent);
+      color: var(--accent-glow);
+    }
+    .modal-wick-title {
+      font-family: 'Special Elite', cursive;
+      font-size: 2.4rem;
+      font-weight: 400;
+      color: var(--accent-glow);
+      margin-bottom: 0.2rem;
+    }
+    .modal-wick-desc {
+      color: var(--text-soft);
+      line-height: 1.5;
+      font-size: 0.85rem;
+      margin: 0.8rem 0;
+    }
+    .modal-wick-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1.6rem;
+    }
+    .btn-wick-primary {
+      background: var(--accent);
+      border: none;
+      padding: 0.7rem 2rem;
+      font-weight: 800;
+      font-size: 0.7rem;
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      cursor: pointer;
+      color: #0c0b0e;
+      font-family: monospace;
+    }
+    .btn-wick-secondary {
+      background: transparent;
+      border: 1px solid var(--accent);
+      padding: 0.7rem 1.8rem;
+      font-weight: 600;
+      font-size: 0.7rem;
+      cursor: pointer;
+      color: var(--text);
+      font-family: monospace;
+    }
+    .modal-fade-wick { opacity: 0; pointer-events: none; transition: opacity 0.2s; display: none; }
+
+    @media (max-width: 780px) {
+      .nav-wick { flex-direction: column; gap: 0.6rem; }
+      .grid-wick { gap: 1rem; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- entry modal: NECRO WICK invitation -->
+<div id="entryModalWick" class="modal-wick">
+  <div class="modal-wick-block">
+    <button id="closeWickModal" class="modal-wick-close"><i class="fas fa-fire"></i></button>
+    <div class="modal-wick-icon"><i class="fas fa-crown"></i></div>
+    <h2 class="modal-wick-title">NECRO WICK</h2>
+    <p class="modal-wick-desc">Wick & marrow · funeral wax · embalmer's craft. Garments drawn from the pyre and marrow-light. Enter the necroturgy.</p>
+    <div class="modal-wick-buttons">
+      <button id="enterWickBtn" class="btn-wick-primary">🕯️ IGNITE THE WICK</button>
+      <button id="laterWickBtn" class="btn-wick-secondary">EXTINGUISH LATER</button>
+    </div>
+  </div>
+</div>
+
+<header class="necro-header">
+  <div class="nav-wick">
+    <div class="brand-wick">NECRO WICK<small>· MARROW</small></div>
+    <nav class="nav-wick-links">
+      <a href="#shopWick">NECROTURGY</a>
+      <a href="#shopWick">WICK</a>
+      <a href="#shopWick">MARROW</a>
+      <a href="#">PYRE</a>
+    </nav>
+    <div class="wick-utils">
+      <button id="themeToggleWick">⚰️ EMBALMER MODE</button>
+      <div class="wick-cart" id="cartIconWick">
+        <i class="fas fa-fire"></i>
+        <span class="cart-count-wick" id="cartCountWick">0</span>
+      </div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="hero-wick">
+    <div class="hero-wick-content">
+      <div class="hero-wick-badge">NECROTURGY · WICK-WOVEN · FUNERAL WAX</div>
+      <h1 class="hero-wick-title">NECRO WICK</h1>
+      <div class="hero-wick-offer">First anointment: <strong>15% off</strong> your first marrow artifact</div>
+      <a href="#shopWick" class="btn-wick">ENTER PYRE →</a>
+    </div>
+  </section>
+
+  <div class="wick-collection" id="shopWick">
+    <h2>Marrow Archive · Wick & Funeral Wax</h2>
+    <p>12 necrotic artifacts</p>
+  </div>
+
+  <div class="grid-wick" id="productGridWick"></div>
+</main>
+
+<footer>
+  <div class="footer-wick">
+    <div class="footer-wick-brand">NECRO WICK</div>
+    <div class="footer-wick-regions">PYRE · MARROW VAULT · WICK CHAPEL</div>
+    <p style="font-size:0.55rem; opacity:0.7;">© 2026 NECRO WICK — rendered from wax, kindled by keepers.</p>
+  </div>
+</footer>
+
+<!-- CART SIDEBAR -->
+<div id="cartOverlayWick" class="cart-overlay-wick">
+  <div class="cart-wick-panel">
+    <div class="cart-wick-header">
+      <h3>🕯️ MARROW FOLIO</h3>
+      <button class="close-wick-cart" id="closeCartWick"><i class="fas fa-times"></i></button>
+    </div>
+    <div class="cart-wick-items" id="cartItemsWick">
+      <div class="empty-wick-cart">Your marrow is empty.<br>Add necro gear.</div>
+    </div>
+    <div class="cart-wick-footer" id="cartFooterWick" style="display: none;">
+      <div class="wick-total"><span>Total (USD)</span><span id="cartTotalWick">$0</span></div>
+      <button class="wick-checkout" id="checkoutWickBtn">🕰️ CONSECRATE PYRE</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // NECRO WICK unique product catalog — distinct IDs and naming
+  const wickProducts = [
+    { id: 3901, name: "Necro Cloak", category: "PYRE", original: 895, price: 760, img: "https://images.unsplash.com/photo-1539109136881-3be0616acf4b?q=80&w=687&auto=format&fit=crop", alt: "cloak" },
+    { id: 3902, name: "Marrow Tunic", category: "WICK", original: 340, price: 289, img: "https://images.unsplash.com/photo-1596755389378-c31d21fd1273?q=80&w=687&auto=format&fit=crop", alt: "tunic" },
+    { id: 3903, name: "Funeral Weave Shirt", category: "LAYER", original: 580, price: 493, img: "https://images.unsplash.com/photo-1618354691373-d851c5c3a990?q=80&w=715&auto=format&fit=crop", alt: "shirt" },
+    { id: 3904, name: "Embalmer Pants", category: "BOTTOMS", original: 470, price: 399, img: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?q=80&w=600&auto=format&fit=crop", alt: "pants" },
+    { id: 3905, name: "Pyre Anorak", category: "KNIT", original: 795, price: 675, img: "https://images.unsplash.com/photo-1591047139829-d91aecb6caea?q=80&w=600&auto=format&fit=crop", alt: "anorak" },
+    { id: 3906, name: "Mortician Vest", category: "VEST", original: 425, price: 361, img: "https://images.unsplash.com/photo-1594938298603-c8148c4dae35?q=80&w=687&auto=format&fit=crop", alt: "vest" },
+    { id: 3907, name: "Crematorium Smock", category: "SMOCK", original: 1060, price: 901, img: "https://images.unsplash.com/photo-1595777457583-95e059d581b8?q=80&w=687&auto=format&fit=crop", alt: "smock" },
+    { id: 3908, name: "Wax Seal Coat", category: "COAT", original: 1420, price: 1207, img: "https://images.unsplash.com/photo-1598032895397-b9472444bf93?q=80&w=2070&auto=format&fit=crop", alt: "coat" },
+    { id: 3909, name: "Marrow Cargo", category: "BOTTOMS", original: 550, price: 467, img: "https://images.unsplash.com/photo-1541099649105-f69ad21f3246?q=80&w=600&auto=format&fit=crop", alt: "cargo" },
+    { id: 3910, name: "Necro Hood", category: "HOODIE", original: 355, price: 301, img: "https://images.unsplash.com/photo-1576566588028-4147f3842f27?q=80&w=764&auto=format&fit=crop", alt: "hoodie" },
+    { id: 3911, name: "Grave Pyre Duster", category: "OUTER", original: 1820, price: 1547, img: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?q=80&w=688&auto=format&fit=crop", alt: "duster" },
+    { id: 3912, name: "Wick Shroud", category: "SHIRT", original: 660, price: 561, img: "https://images.unsplash.com/photo-1583496661160-fb5886a0aaaa?q=80&w=687&auto=format&fit=crop", alt: "shacket" }
+  ];
+
+  let cartWick = [];
+  const cartOverlayWickDiv = document.getElementById('cartOverlayWick');
+  const cartWickIcon = document.getElementById('cartIconWick');
+  const closeCartWickBtn = document.getElementById('closeCartWick');
+  const cartWickContainer = document.getElementById('cartItemsWick');
+  const cartWickFooter = document.getElementById('cartFooterWick');
+  const cartWickTotalSpan = document.getElementById('cartTotalWick');
+  const cartWickCountSpan = document.getElementById('cartCountWick');
+
+  function persistWickCart() { localStorage.setItem('NECRO_WICK_CART', JSON.stringify(cartWick)); }
+  function loadWickCart() {
+    const saved = localStorage.getItem('NECRO_WICK_CART');
+    if (saved) cartWick = JSON.parse(saved);
+    renderWickCart();
+    updateWickCount();
+  }
+  function updateWickCount() { cartWickCountSpan.innerText = cartWick.reduce((sum,i)=>sum+i.qty,0); }
+
+  function renderWickCart() {
+    if (!cartWickContainer) return;
+    if (cartWick.length === 0) {
+      cartWickContainer.innerHTML = '<div class="empty-wick-cart">Your marrow is empty.<br>Add necro gear.</div>';
+      cartWickFooter.style.display = 'none';
+      updateWickCount(); persistWickCart(); return;
+    }
+    cartWickFooter.style.display = 'block';
+    let html = ''; let total = 0;
+    cartWick.forEach(item => {
+      total += item.price * item.qty;
+      html += `<div class="wick-cart-item" data-id="${item.id}">
+          <img class="wick-cart-img" src="${item.img}" alt="${item.name}">
+          <div class="wick-cart-details">
+            <div class="wick-cart-name">${item.name}</div>
+            <div class="wick-cart-price">$${item.price.toLocaleString()}</div>
+            <div class="wick-cart-qty">
+              <button class="wick-qty-dec" data-id="${item.id}">−</button>
+              <span>${item.qty}</span>
+              <button class="wick-qty-inc" data-id="${item.id}">+</button>
+            </div>
+          </div>
+          <button class="wick-remove" data-id="${item.id}"><i class="fas fa-trash-alt"></i></button>
+        </div>`;
+    });
+    cartWickContainer.innerHTML = html;
+    cartWickTotalSpan.innerText = `$${total.toLocaleString()}`;
+    document.querySelectorAll('.wick-qty-dec').forEach(btn => btn.addEventListener('click', () => updateWickQty(parseInt(btn.dataset.id), -1)));
+    document.querySelectorAll('.wick-qty-inc').forEach(btn => btn.addEventListener('click', () => updateWickQty(parseInt(btn.dataset.id), 1)));
+    document.querySelectorAll('.wick-remove').forEach(btn => btn.addEventListener('click', () => removeWickItem(parseInt(btn.dataset.id))));
+    updateWickCount(); persistWickCart();
+  }
+  function updateWickQty(pid, delta) {
+    const idx = cartWick.findIndex(i=>i.id===pid);
+    if(idx !== -1){
+      const nq = cartWick[idx].qty + delta;
+      if(nq <= 0) cartWick.splice(idx,1);
+      else cartWick[idx].qty = nq;
+      renderWickCart();
+    }
+  }
+  function removeWickItem(pid){ cartWick = cartWick.filter(i=>i.id!==pid); renderWickCart(); }
+  function addToWickCart(pid){
+    const prod = wickProducts.find(p=>p.id===pid);
+    if(!prod) return;
+    const existing = cartWick.find(i=>i.id===pid);
+    if(existing) existing.qty += 1;
+    else cartWick.push({id:prod.id, name:prod.name, price:prod.price, qty:1, img:prod.img});
+    renderWickCart();
+    const btn = document.querySelector(`.wick-add-${pid}`);
+    if(btn){ let old = btn.innerText; btn.innerText="🕯️ ADDED"; setTimeout(()=>btn.innerText=old,700); }
+    cartOverlayWickDiv.classList.add('active');
+  }
+
+  function renderWickProducts() {
+    const container = document.getElementById('productGridWick');
+    if(!container) return;
+    container.innerHTML = '';
+    wickProducts.forEach(p => {
+      const disc = Math.round(((p.original-p.price)/p.original)*100);
+      const card = document.createElement('div');
+      card.className = 'wick-card';
+      card.innerHTML = `
+        <div class="wick-media">
+          <img src="${p.img}" alt="${p.alt||p.name}" loading="lazy">
+          <div class="wick-quick"><button class="wick-add-${p.id} add-wick-btn" data-id="${p.id}">🕯️ ADD TO MARROW</button></div>
+        </div>
+        <div class="wick-info">
+          <div class="wick-detail"><h4>${p.category}</h4><h3>${p.name}</h3></div>
+          <div class="wick-price"><span class="wick-current">$${p.price.toLocaleString()}</span><span class="wick-old">$${p.original.toLocaleString()}</span><span style="font-size:0.55rem;color:var(--accent-glow);display:block;text-align:right;">-${disc}%</span></div>
+        </div>`;
+      container.appendChild(card);
+    });
+    document.querySelectorAll('.add-wick-btn').forEach(btn => btn.addEventListener('click', (e)=>{ e.preventDefault(); addToWickCart(parseInt(btn.dataset.id)); }));
+  }
+
+  function initThemeWick() {
+    const stored = localStorage.getItem('NECRO_WICK_theme');
+    let theme = stored || 'necrosis';
+    document.documentElement.setAttribute('data-theme', theme);
+    const toggle = document.getElementById('themeToggleWick');
+    if(toggle) toggle.textContent = theme === 'necrosis' ? '⚰️ EMBALMER MODE' : '🕯️ NECROSIS MODE';
+  }
+  function toggleThemeWick() {
+    const curr = document.documentElement.getAttribute('data-theme');
+    const next = curr === 'necrosis' ? 'embalmer' : 'necrosis';
+    document.documentElement.setAttribute('data-theme', next);
+    localStorage.setItem('NECRO_WICK_theme', next);
+    const toggleBtn = document.getElementById('themeToggleWick');
+    if(toggleBtn) toggleBtn.textContent = next === 'necrosis' ? '⚰️ EMBALMER MODE' : '🕯️ NECROSIS MODE';
+  }
+
+  // modal handlers
+  const modalWickElem = document.getElementById('entryModalWick');
+  const enterWick = document.getElementById('enterWickBtn'), laterWick = document.getElementById('laterWickBtn'), closeWickModalBtn = document.getElementById('closeWickModal');
+  function closeWickModalFunc() {
+    if(modalWickElem){
+      modalWickElem.classList.add('modal-fade-wick');
+      setTimeout(()=>modalWickElem.style.display='none',200);
+    }
+  }
+  if(enterWick) enterWick.addEventListener('click', closeWickModalFunc);
+  if(laterWick) laterWick.addEventListener('click', closeWickModalFunc);
+  if(closeWickModalBtn) closeWickModalBtn.addEventListener('click', closeWickModalFunc);
+  if(modalWickElem) modalWickElem.addEventListener('click',(e)=>{ if(e.target===modalWickElem) closeWickModalFunc(); });
+
+  cartWickIcon?.addEventListener('click',()=>cartOverlayWickDiv.classList.add('active'));
+  closeCartWickBtn?.addEventListener('click',()=>cartOverlayWickDiv.classList.remove('active'));
+  cartOverlayWickDiv?.addEventListener('click',(e)=>{ if(e.target===cartOverlayWickDiv) cartOverlayWickDiv.classList.remove('active'); });
+  document.getElementById('checkoutWickBtn')?.addEventListener('click',()=>{ alert('Necro Wick hallows your offering. Your pyre order is sealed in wax and marrow.'); cartWick=[]; renderWickCart(); cartOverlayWickDiv.classList.remove('active'); });
+  document.querySelectorAll('a[href^="#"]').forEach(a=>{ a.addEventListener('click',function(e){ const hash=this.getAttribute('href'); if(hash==="#") return; const sec=document.querySelector(hash); if(sec){ e.preventDefault(); sec.scrollIntoView({behavior:'smooth'}); } }); });
+
+  renderWickProducts();
+  initThemeWick();
+  loadWickCart();
+  document.getElementById('themeToggleWick')?.addEventListener('click', toggleThemeWick);
+</script>
+</body>
+</html>
